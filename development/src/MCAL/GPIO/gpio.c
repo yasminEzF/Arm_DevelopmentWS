@@ -63,8 +63,8 @@ typedef struct {
     uint32_t ODR;
     uint32_t BSRR;
     uint32_t LCKR;
-    uint32_t AFRL;
-    uint32_t AFRH;
+    uint32_t AFR[2];
+    // uint32_t AFRH;
 }gpio_t;
 
 /*****************************************************************************/
@@ -104,16 +104,8 @@ uint8_t gpio_initPin(gpioPin_t* pinCfg) {
     CAST(pinCfg->port)->OSPEEDR &= clrMask;
     CAST(pinCfg->port)->OSPEEDR |= setMask;
 
-    // if(pinCfg->pin < 7) {
-    //     CAST(pinCfg->port)->AFRL;
-    
-    // } 
-    // else {
-    //     CAST(pinCfg->port)->AFRH;
-    
-    // }
-
-    // (pinCfg->af);
+    CAST(pinCfg->port)->AFR[pinCfg->pin / 8] &= ~(AF_MASK << (pinCfg->pin % 8));
+    CAST(pinCfg->port)->AFR[pinCfg->pin / 8] |= (pinCfg->af << (pinCfg->pin % 8));
 
     errorStatus = RETURN_GPIO_OK;
 
