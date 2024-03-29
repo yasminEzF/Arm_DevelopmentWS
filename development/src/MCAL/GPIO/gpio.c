@@ -85,7 +85,7 @@ uint8_t gpio_initPin(gpioPin_t* pinCfg) {
     uint32_t setMask, clrMask;
     
     setMask = ((pinCfg->mode & MODE_MASK) << (2*pinCfg->pin));
-    clrMask = ~(MODE_MASK<< (2*pinCfg->pin));
+    clrMask = ~(MODE_MASK << (2*pinCfg->pin));
     CAST(pinCfg->port)->MODER &= clrMask;
     CAST(pinCfg->port)->MODER |= setMask;
 
@@ -94,7 +94,7 @@ uint8_t gpio_initPin(gpioPin_t* pinCfg) {
     CAST(pinCfg->port)->OTYPE &= clrMask; 
     CAST(pinCfg->port)->OTYPE |= setMask;
     
-    setMask = (((pinCfg->mode >> 1) & PUPD_MASK) << (2*pinCfg->pin));
+    setMask = (((pinCfg->mode >> 3) & PUPD_MASK) << (2*pinCfg->pin));
     clrMask = ~(PUPD_MASK << (2*pinCfg->pin));
     CAST(pinCfg->port)->PUPDR &= clrMask;
     CAST(pinCfg->port)->PUPDR |= setMask;

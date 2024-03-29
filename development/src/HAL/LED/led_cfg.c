@@ -26,7 +26,7 @@ const ledCfg_t leds[_ledsNum] = {
     },
     [led_blue] = {
         .port = PORT_B,
-        .pin = PIN_9,
+        .pin = PIN_8,
         .led_connection = LED_CONNECTION_REVERSE,
         .led_state = LED_STATE_OFF
     },
@@ -38,7 +38,7 @@ const ledCfg_t leds[_ledsNum] = {
     },
     [led_yellow] = {
         .port = PORT_B,
-        .pin = PIN_8,
+        .pin = PIN_7,
         .led_connection = LED_CONNECTION_REVERSE,
         .led_state = LED_STATE_ON
     }

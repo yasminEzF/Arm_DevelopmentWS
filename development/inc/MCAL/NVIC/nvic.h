@@ -10,6 +10,17 @@
 /*****************************************************************************/
 /*                              Defines                                      */
 /*****************************************************************************/
+#define RETURN_OK       0
+#define RETURN_NOT_OK   1
+
+#define INT_STATUS_ACTIVE       1
+#define INT_STATUS_INACTIVE     0
+
+#define SUBGP_BITS_0            0x00
+#define SUBGP_BITS_1            0x04
+#define SUBGP_BITS_2            0x05
+#define SUBGP_BITS_3            0x06
+#define SUBGP_BITS_4            0x07
 
 
 /*****************************************************************************/
@@ -21,14 +32,15 @@
 /*****************************************************************************/
 /*                          Function Prototypes                              */
 /*****************************************************************************/
-uint8_t nvic_cfgIntProirity(irq,preempt_priority,subgp_priority);
-uint8_t nvic_enableInt(irq);
-uint8_t nvic_disableInt(irq);
-uint8_t nvic_setPending(irq);
-uint8_t nvic_clrPending(irq);
-uint8_t nvic_getIntStatus(irq);
-uint8_t nvic_cfgSubgpBits(subgp);
-uint8_t nvic_genSwInt(irq);
+void nvic_cfgIntProirity(uint8_t irq,uint8_t preempt_priority,uint8_t subgp_priority);
+//uint8_t nvic_getIntProirity(uint8_t irq,uint8_t* preempt_priority,uint8_t* subgp_priority);
+uint8_t nvic_enableInt(uint8_t irq);
+uint8_t nvic_disableInt(uint8_t irq);
+uint8_t nvic_setPending(uint8_t irq);
+uint8_t nvic_clrPending(uint8_t irq);
+void nvic_getIntStatus(uint8_t irq, uint8_t* int_status);
+uint8_t nvic_cfgSubgpBits(uint8_t subgp_bits);
+void nvic_generateSwInt(uint8_t irq);
 
 
 #endif /* NVIC_H_ */
