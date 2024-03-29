@@ -72,14 +72,16 @@ void SysTick_Handler(void){
     }
 }
 
-uint8_t stk_setTime_mS(uint64_t time_mS) {
+uint8_t stk_setTime_mS(uint32_t time_mS) {
     uint8_t errorStatus = STK_NOT_OK;
-    uint32_t counts = ((uint32_t)(uint64_t)time_mS*CLK/1000) - 1;
-    stk->LOAD &= ~LOAD_VAL_MASK;
-    stk->LOAD |= (counts & LOAD_VAL_MASK);
-    stk->VAL &= ~CURRENT_VAL_MASK;
-    if((stk->LOAD & LOAD_VAL_MASK) == counts){
-        errorStatus = STK_OK;
+    if(time_mS <= STK_MAX_TIME_MS){
+        uint32_t counts = ((uint32_t)time_mS*CLK/1000) - 1;
+        stk->LOAD &= ~LOAD_VAL_MASK;
+        stk->LOAD |= (counts & LOAD_VAL_MASK);
+        stk->VAL &= ~CURRENT_VAL_MASK;
+        if((stk->LOAD & LOAD_VAL_MASK) == counts){
+            errorStatus = STK_OK;
+        }
     }
     return errorStatus;
 }

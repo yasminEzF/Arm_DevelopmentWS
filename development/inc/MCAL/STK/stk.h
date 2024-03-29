@@ -19,6 +19,8 @@
 #define STK_MODE_ONE_SHOT           1
 #define STK_MODE_PERIODIC           0
 
+#define STK_MAX_TIME_MS             1000
+
 /*****************************************************************************/
 /*                              Types                                        */
 /*****************************************************************************/
@@ -30,7 +32,7 @@ typedef void (*handler_t)(void);
 /*****************************************************************************/
 void stk_cfgMode(uint8_t stk_mode);
 uint8_t stk_setCallBck(handler_t handler);
-uint8_t stk_setTime_mS(uint64_t time_mS);
+uint8_t stk_setTime_mS(uint32_t time_mS);
 uint8_t stk_start();
 uint8_t stk_stop();
 uint8_t stk_isExpired();
