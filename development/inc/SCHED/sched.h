@@ -28,7 +28,7 @@ typedef struct{
 /*****************************************************************************/
 /*                          Function Prototypes                              */
 /*****************************************************************************/
-uint8_t sched_init();
-uint8_t sched_start();
+void sched_init();
+void sched_start();
 
 #endif /* SCHED_H_ */

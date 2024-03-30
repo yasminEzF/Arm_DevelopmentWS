@@ -2,8 +2,8 @@
 /*                              Includes                                     */
 /*****************************************************************************/
 #include "SCHED/sched.h"
-#include "RUNNABLES/runnables.h"
-#include "MCAL/SYSTCK/systck.h"
+#include "SCHED/runnables.h"
+#include "MCAL/STK/stk.h"
 
 /*****************************************************************************/
 /*                              Defines                                      */
@@ -25,18 +25,18 @@ static uint64_t timeStamp = 0;
 /*****************************************************************************/
 /*                      Static Function Prototypes                           */
 /*****************************************************************************/
-static uint8_t sched();
-static uint8_t tickCallBack();
+static void sched();
+static void tickCallBack();
 /*****************************************************************************/
 /*                           Implementation                                  */
 /*****************************************************************************/
-uint8_t sched_init() {
-    systck_cfgMode();
-    systck_setCallBck(tickCallBack);
-    systck_setTime_mS((uint64_t)SCHED_TIME_MS);
+void sched_init() {
+    stk_cfgMode(STK_MODE_PERIODIC);
+    stk_setCallBck(tickCallBack);
+    stk_setTime_mS((uint32_t)SCHED_TIME_MS);
 }
-uint8_t sched_start() {
-    systck_start();
+void sched_start() {
+    stk_start();
     while(1){
         if(pendingTicks) {
             pendingTicks--;
@@ -44,14 +44,14 @@ uint8_t sched_start() {
         }
     }
 }
-static uint8_t sched() {
-    timeStamp++;
+static void sched() {
+    timeStamp += SCHED_TIME_MS;
     for(uint8_t i = 0; i < _runsNum; i++) {
         if(!(timeStamp % runnables[i].period_mS)) {
             runnables[i].callBck();
         }
     }
 }
-static uint8_t tickCallBack() {
+static void tickCallBack(void) {
     pendingTicks++;
 }

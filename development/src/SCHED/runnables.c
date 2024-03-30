@@ -1,7 +1,7 @@
 /*****************************************************************************/
 /*                              Includes                                     */
 /*****************************************************************************/
-#include "RUNNABLES/runnables.h"
+#include "SCHED/runnables.h"
 #include "SCHED/sched.h"
 
 /*****************************************************************************/
@@ -15,16 +15,19 @@
 /*****************************************************************************/
 /*                           Global Variables                                */
 /*****************************************************************************/
+void Hsw_task(void);
+void App_task(void);
+
 const runnable_t runnables[_runsNum] = {
-    [run_sw] = {
+    [Hsw_runnable] = {
         .name = "H_Switch",
         .period_mS = 5,
-        .callBck = Hsw_runnable
+        .callBck = Hsw_task
     },
-    [run_app] = {
+    [App_runnable] = {
         .name = "LED,SW App",
         .period_mS = 50,
-        .callBck = app_runnable
+        .callBck = App_task
     }
 };
 

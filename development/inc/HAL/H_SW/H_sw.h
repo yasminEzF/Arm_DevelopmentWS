@@ -31,8 +31,8 @@ typedef struct {
 /*                          Function Prototypes                              */
 /*****************************************************************************/
 
-uint8_t sw_init(void);
-uint8_t sw_getState(uint8_t sw, uint8_t* sw_state);
+uint8_t hsw_init(void);
+uint8_t hsw_getState(uint8_t sw, uint8_t* sw_state);
 
 
 #endif /* H_SW_H_ */

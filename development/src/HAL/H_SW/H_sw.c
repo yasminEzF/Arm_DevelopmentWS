@@ -3,7 +3,6 @@
 /*****************************************************************************/
 #include "HAL/H_SW/H_sw.h"
 #include "MCAL/GPIO/gpio.h"
-//#include "SCHED/sched.h"
 
 /*****************************************************************************/
 /*                              Defines                                      */
@@ -34,7 +33,7 @@ static swData_t swData[_swsNum] = {0};
 /*                           Implementation                                  */
 /*****************************************************************************/
 
-uint8_t sw_init(void) {
+uint8_t hsw_init(void) {
     uint8_t errorStatus = RETURN_SW_NOT_OK;
 
     gpioPin_t sw_pin;
@@ -61,15 +60,16 @@ uint8_t sw_init(void) {
     return errorStatus;
 }
 
-uint8_t sw_getState(uint8_t sw, uint8_t* sw_state) {
+uint8_t hsw_getState(uint8_t sw, uint8_t* sw_state) {
     uint8_t errorStatus = RETURN_SW_NOT_OK;
-    
-    *sw_state = swData[sw].state;
-    
+    if(sw_state){
+        *sw_state = swData[sw].state;
+        errorStatus = RETURN_SW_OK;
+    }    
     return errorStatus;
 }
 
-void Hsw_runnable(){
+void Hsw_task(){
     uint8_t current = 2;
     for(uint8_t i = 0; i < _swsNum; i++) {
         if(!gpio_getPinValue(switches[i].port,switches[i].pin,&current)){
@@ -87,4 +87,3 @@ void Hsw_runnable(){
         current = 2;
     }
 }
-
