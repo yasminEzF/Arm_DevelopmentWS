@@ -15,7 +15,6 @@
 /*                              Types                                        */
 /*****************************************************************************/
 typedef enum {
-    Hsw_runnable,
     App_runnable,
     _runsNum
 }runnables_t;

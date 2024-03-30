@@ -18,7 +18,6 @@ typedef enum {
     led_red,
     led_yellow,
     led_green,
-    led_blue,
     _ledsNum
 }leds_t;
 
