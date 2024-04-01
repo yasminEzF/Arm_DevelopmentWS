@@ -17,12 +17,18 @@
 /*****************************************************************************/
 
 void App_task(void);
+void Lcd_task(void);
 
 const runnable_t runnables[_runsNum] = {
     [App_runnable] = {
-        .name = "traffic lights App",
-        .period_mS = 2000,
+        .name = "Application",
+        .period_mS = 1000,
         .callBck = App_task
+    },
+    [lcd_task] = {
+        .name = "LCD",
+        .period_mS = 2,
+        .callBck = Lcd_task
     }
 };
 
