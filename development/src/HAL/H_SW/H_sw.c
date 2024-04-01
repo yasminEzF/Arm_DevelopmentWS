@@ -30,6 +30,29 @@ static swData_t swData[_swsNum] = {0};
 /*****************************************************************************/
 
 /*****************************************************************************/
+/*                              Module Task                                  */
+/*****************************************************************************/
+
+void Hsw_task(){
+    uint8_t current = 2;
+    for(uint8_t i = 0; i < _swsNum; i++) {
+        if(!gpio_getPinValue(switches[i].port,switches[i].pin,&current)){
+            if(swData[i].prev == current) {
+                swData[i].count++;
+            }
+            else {
+                swData[i].count = 0;
+            }
+            if(swData[i].count == 5) {
+                swData[i].state = swData[i].prev ^ switches[i].sw_connection;
+            }
+            swData[i].prev = current;
+        }
+        current = 2;
+    }
+}
+
+/*****************************************************************************/
 /*                           Implementation                                  */
 /*****************************************************************************/
 
@@ -69,21 +92,3 @@ uint8_t hsw_getState(uint8_t sw, uint8_t* sw_state) {
     return errorStatus;
 }
 
-void Hsw_task(){
-    uint8_t current = 2;
-    for(uint8_t i = 0; i < _swsNum; i++) {
-        if(!gpio_getPinValue(switches[i].port,switches[i].pin,&current)){
-            if(swData[i].prev == current) {
-                swData[i].count++;
-            }
-            else {
-                swData[i].count = 0;
-            }
-            if(swData[i].count == 5) {
-                swData[i].state = swData[i].prev ^ switches[i].sw_connection;
-            }
-            swData[i].prev = current;
-        }
-        current = 2;
-    }
-}

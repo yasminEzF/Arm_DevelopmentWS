@@ -1,9 +1,7 @@
 #include"APP/app.h"
 
 #if(APP == HSW_TASK_APP)
-/*****************************************************************************/
-/*                              Includes                                     */
-/*****************************************************************************/
+
 #include "SCHED/sched.h"
 
 #include"MCAL/RCC/rcc.h"
@@ -11,8 +9,23 @@
 #include"HAL/LED/led.h"
 #include"HAL/H_SW/H_sw.h"
 
-void stk_handler(void);
+/*****************************************************************************/
+/*                              Module Task                                  */
+/*****************************************************************************/
+void App_task(){
+    uint8_t sw_state = SW_STATE_RELEASED;
+    hsw_getState(sw_blue,&sw_state);
+    if(sw_state == SW_STATE_PRESSED){
+        led_setState(led_blue,LED_STATE_ON);
+    }
+    else if(sw_state == SW_STATE_RELEASED){
+        led_setState(led_blue,LED_STATE_OFF);
+    }
+}
 
+/*****************************************************************************/
+/*                                  Main                                     */
+/*****************************************************************************/
 int main() {
     
     rcc_enableClk(CLOCK_HSI);
@@ -35,15 +48,6 @@ int main() {
 
 }
 
-void App_task(){
-    uint8_t sw_state = SW_STATE_RELEASED;
-    hsw_getState(sw_blue,&sw_state);
-    if(sw_state == SW_STATE_PRESSED){
-        led_setState(led_blue,LED_STATE_ON);
-    }
-    else if(sw_state == SW_STATE_RELEASED){
-        led_setState(led_blue,LED_STATE_OFF);
-    }
-}
+
 
 #endif
