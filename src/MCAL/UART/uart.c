@@ -14,7 +14,7 @@
 #define USART2_BASE         (0x40014400)
 
 #define TXE_MASK            BIT7_MASK
-#define RXNE_MASK            BIT5_MASK
+#define RXNE_MASK           BIT5_MASK
 
 
 /*****************************************************************************/
@@ -94,7 +94,9 @@ void USART_handlers(uint8_t usart_id){
         }
     }
     if(RXNE_MASK & usart[usart_id]->SR) {
+        if(txUsrReq[usart_id].buffer.current_index < txUsrReq[usart_id].buffer.len) {
 
+        }
     }
 }
 
