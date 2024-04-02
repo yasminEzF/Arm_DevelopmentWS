@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "gpio_defines.h": "c",
-        "bitmasks.h": "c"
-    }
-}

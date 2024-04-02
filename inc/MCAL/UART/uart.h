@@ -1,37 +1,36 @@
-#ifndef LED_H_
-#define LED_H_
+#ifndef UART_H_
+#define UART_H_
 
 /*****************************************************************************/
 /*                              Includes                                     */
 /*****************************************************************************/
-#include "led_cfg.h"
+#include <stdint.h>
 
 /*****************************************************************************/
 /*                              Defines                                      */
 /*****************************************************************************/
-#define LED_STATE_ON    (uint8_t)0x01
-#define LED_STATE_OFF   (uint8_t)0x00
+#define USART6     ((void* const)0x40011400)
+#define USART1     ((void* const)0x40011000)
+#define USART2     ((void* const)0x40014400)
 
-#define LED_CONNECTION_FORWARD  (uint8_t)0x00
-#define LED_CONNECTION_REVERSE  (uint8_t)0x01
 
-#define RETURN_LED_OK       (uint8_t)0x00
-#define RETURN_LED_NOT_OK   (uint8_t)0x01
 
 /*****************************************************************************/
 /*                              Types                                        */
 /*****************************************************************************/
-typedef struct {
-    uint8_t pin;
-    uint8_t led_connection;
-    uint8_t led_state;
-    void* port;
-}ledCfg_t;
+
+
 
 /*****************************************************************************/
 /*                          Function Prototypes                              */
 /*****************************************************************************/
-uint8_t led_init(void);
-uint8_t led_setState(uint8_t led, uint8_t led_state);
+void uart_sendByte(uint8_t byte);
+void uart_recByte(uint8_t* byte);
 
-#endif /* LED_H_ */
+void uart_txBuffAsync(uint32_t* buff, uint16_t len);
+void uart_txBuff();
+
+void uart_rxBuffAsync();
+void uart_rxBuff();
+
+#endif /* UART_H_ */

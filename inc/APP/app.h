@@ -1,5 +1,5 @@
 
-#define APP                 LCD_APP
+#define APP                 UART_APP
 
 #define EMPTY_APP           0
 #define RCC_LED_SW_APP      1
@@ -8,3 +8,4 @@
 #define HSW_TASK_APP        4
 #define TRAFFIC_APP         5
 #define LCD_APP             6
+#define UART_APP            7
