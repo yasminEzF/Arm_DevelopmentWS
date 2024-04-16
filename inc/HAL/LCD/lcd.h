@@ -9,7 +9,8 @@
 /*****************************************************************************/
 /*                              Defines                                      */
 /*****************************************************************************/
-
+#define CURSOR_STATE_ON         1
+#define CURSOR_STATE_OFF        0
 
 
 /*****************************************************************************/
@@ -43,5 +44,6 @@ void lcd_writeStringAsync(uint8_t* dataStringPtr, uint8_t len, callback_t callba
 void lcd_clearScreenAsync(callback_t callback_clear);
 void lcd_setCursorAsync(uint8_t x, uint8_t y, callback_t callback_cursor);
 
+void lcd_blinkCursorAsync(uint8_t cursor_state, callback_t callback_blinkCursor);
 
 #endif /* LCD_H_ */

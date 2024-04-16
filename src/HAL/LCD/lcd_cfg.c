@@ -28,50 +28,50 @@
 /*****************************************************************************/
 /*                           Global Variables                                */
 /*****************************************************************************/
-const lcdCfg_t lcdCfg = {
+lcdCfg_t lcdCfg = {
     .lcdPinsArr = {
         [d0] = {
-            .pin = PIN_15,
-            .port = PORT_B
+            .pin = PIN_7,
+            .port = PORT_A
         },
         [d1] = {
-            .pin = PIN_14,
-            .port = PORT_B
+            .pin = PIN_6,
+            .port = PORT_A
         },
         [d2] = {
-            .pin = PIN_13,
-            .port = PORT_B
+            .pin = PIN_5,
+            .port = PORT_A
         },
         [d3] = {
-            .pin = PIN_12,
-            .port = PORT_B
+            .pin = PIN_4,
+            .port = PORT_A
         },
         [d4] = {
-            .pin = PIN_10,
-            .port = PORT_B
+            .pin = PIN_3,
+            .port = PORT_A
         },
         [d5] = {
-            .pin = PIN_9,
-            .port = PORT_B
-        },
-        [d6] = {
-            .pin = PIN_8,
-            .port = PORT_B
-        },
-        [d7] = {
-            .pin = PIN_7,
-            .port = PORT_B
-        },
-        [rs] = {
             .pin = PIN_2,
             .port = PORT_A
         },
-        [rw] = {
+        [d6] = {
             .pin = PIN_1,
             .port = PORT_A
         },
-        [e] = {
+        [d7] = {
             .pin = PIN_0,
+            .port = PORT_A
+        },
+        [rs] = {
+            .pin = PIN_10,
+            .port = PORT_A
+        },
+        [rw] = {
+            .pin = PIN_9,
+            .port = PORT_A
+        },
+        [e] = {
+            .pin = PIN_8,
             .port = PORT_A
         }
     },

@@ -15,7 +15,10 @@
 /*                              Types                                        */
 /*****************************************************************************/
 typedef enum {
-    App_runnable,
+    display_run,
+    updateState_,
+    getPressed_run,
+    hsw_task,
     lcd_task,
     _runsNum
 }runnables_t;

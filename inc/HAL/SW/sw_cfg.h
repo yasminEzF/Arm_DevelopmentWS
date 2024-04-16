@@ -16,10 +16,13 @@
 /*                              Types                                        */
 /*****************************************************************************/
 typedef enum {
-    sw_red,
-    sw_yellow,
-    sw_blue,
-    sw_green,
+    sw_up,
+    sw_down,
+    sw_right,
+    sw_left,
+    sw_edit_reset,
+    sw_ok_start,
+    sw_mode,
     _swsNum
 }sws_t;
 
