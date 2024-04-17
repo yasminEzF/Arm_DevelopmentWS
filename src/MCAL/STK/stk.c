@@ -13,7 +13,7 @@
 #define COUNTFLAG_MASK      BIT16_MASK
 
 #define CLK                 AHB
-#define AHB                 ((uint64_t)8000000)
+#define AHB                 ((uint64_t)16000000)
 #define AHB_8               AHB/8
 
 #define CURRENT_VAL_MASK    _24BITS_MASK

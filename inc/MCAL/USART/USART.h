@@ -9,7 +9,7 @@
 #define USART_H_
 
 #include "MCAL/USART/USART_Cfg.h"
-#include "LIB/STD_Types.h"
+#include <stdint.h>
 
 /***********************************************/
 /******         Defines           **************/
@@ -44,12 +44,12 @@ typedef void (*CB_t)(void);
 typedef struct
 {
         void  * USART_ID;
-		uint32 	BaudRate;
-		uint32 	WordLength;
-		uint32 	ParityControl;
-		uint32 	ParityType;
-		uint32 	StopBits;
-		uint32 	OverSamplingMode;
+		uint32_t 	BaudRate;
+		uint32_t 	WordLength;
+		uint32_t 	ParityControl;
+		uint32_t 	ParityType;
+		uint32_t 	StopBits;
+		uint32_t 	OverSamplingMode;
 
 
 }
@@ -65,8 +65,8 @@ typedef enum
 typedef struct
 {
  USART_Names_t  	USART_Num; // only in configured names in USART_Cfg.h
- uint8 *	        Ptr_Buffer;
- uint32             Length;
+ uint8_t *	        Ptr_Buffer;
+ uint32_t             Length;
  CB_t               CallBack; // called after finishing Request
 }User_Request_t;
 

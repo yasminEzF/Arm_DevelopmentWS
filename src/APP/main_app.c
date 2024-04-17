@@ -10,6 +10,8 @@
 #include"MCAL/GPIO/gpio.h"
 #include"MCAL/NVIC/nvic.h"
 
+#include"MCAL/USART/USART.h"
+
 void incCursor();
 void decCursor();
 /*****************************************************************************/
@@ -20,6 +22,13 @@ uint8_t stopwatchState = STOPWATCH_STATE_RESET;
 uint8_t clockState = CLOCK_STATE_DISPLAY;
 
 uint8_t pressedKey_id = _swsNum;
+uint8_t pressedKey_sendId = _swsNum;
+
+User_Request_t Tx;
+User_Request_t Rx;
+
+uint8_t Tx_buf[1] = {_swsNum};
+uint8_t Rx_buf[1] = {_swsNum};
 
 uint64_t timestamp = 0;
 uint64_t stopwatchTime = 0;
@@ -66,6 +75,7 @@ static uint8_t numToAscii(uint8_t num){
 }
 
 void updateState(){
+    USART_ReceiveBufferAsync(&Rx);
     switch(state){
         case APP_STATE_CLOCK:
             clock[22] = numToAscii(hrs / 10);
@@ -88,6 +98,7 @@ void updateState(){
                         }
                         break;
                     case CLOCK_STATE_EDIT:
+                    {
                         setCursorBlink(CURSOR_STATE_ON);
                         // lcd_setCursorAsync(i_cursor%16,i_cursor/16,NULL);
                         if(pressedKey_id == sw_ok_start){
@@ -108,13 +119,107 @@ void updateState(){
                             i_cursor--;
                         }
                         else if(pressedKey_id == sw_up){
-                            // if((i_cursor == 22)||(i_cursor == 23)||(i_cursor == 25)||(i_cursor == 26)||(i_cursor == 28)||(i_cursor == 29))
-                            clock[i_cursor]++;
+                            if(i_cursor == 22){
+                                if(clock[i_cursor] == 9){
+                                    timestamp -= 9 * 36000000;
+                                }
+                                else {
+                                    timestamp += 36000000;
+                                }
+                            }
+                            else if(i_cursor == 23){
+                                if(clock[i_cursor] == 9){
+                                    timestamp -= 9 * 3600000;
+                                }
+                                else {
+                                    timestamp += 3600000;
+                                }
+                            }
+                            else if(i_cursor == 25){
+                                if(clock[i_cursor] == 9){
+                                    timestamp -= 9 * 600000;
+                                }
+                                else {
+                                    timestamp += 600000;
+                                }
+                            }
+                            else if(i_cursor == 26){
+                                if(clock[i_cursor] == 9){
+                                    timestamp -= 9 * 60000;
+                                }
+                                else {
+                                    timestamp += 60000;
+                                }
+                            }
+                            else if(i_cursor == 28){
+                                if(clock[i_cursor] == 9){
+                                    timestamp -= 9 * 10000;
+                                }
+                                else {
+                                    timestamp += 10000;
+                                }
+                            }
+                            else if(i_cursor == 29){
+                                if(clock[i_cursor] == 9){
+                                    timestamp -= 9 * 1000;
+                                }
+                                else {
+                                    timestamp += 1000;
+                                }
+                            }
                         }
                         else if(pressedKey_id == sw_down){
-                            clock[i_cursor]--;
+                            if(i_cursor == 22){
+                                if(clock[i_cursor] == 0){
+                                    timestamp += 9 * 36000000;
+                                }
+                                else {
+                                    timestamp -= 36000000;
+                                }
+                            }
+                            else if(i_cursor == 23){
+                                if(clock[i_cursor] == 0){
+                                    timestamp += 9 * 3600000;
+                                }
+                                else {
+                                    timestamp -= 3600000;
+                                }
+                            }
+                            else if(i_cursor == 25){
+                                if(clock[i_cursor] == 0){
+                                    timestamp += 9 * 600000;
+                                }
+                                else {
+                                    timestamp -= 600000;
+                                }
+                            }
+                            else if(i_cursor == 26){
+                                if(clock[i_cursor] == 0){
+                                    timestamp += 9 * 60000;
+                                }
+                                else {
+                                    timestamp -= 60000;
+                                }
+                            }
+                            else if(i_cursor == 28){
+                                if(clock[i_cursor] == 0){
+                                    timestamp += 9 * 10000;
+                                }
+                                else {
+                                    timestamp -= 10000;
+                                }
+                            }
+                            else if(i_cursor == 29){
+                                if(clock[i_cursor] == 0){
+                                    timestamp += 9 * 1000;
+                                }
+                                else {
+                                    timestamp -= 1000;
+                                }
+                            }
                         }
-                        break;
+                    }
+                    break;
                 }
             }
             break;
@@ -161,21 +266,42 @@ void updateState(){
             }   
             break;     
     }
+    USART_ReceiveBufferAsync(&Rx);
 }
 
 /* work at released */
 void getPressed(){
     uint8_t SW_state = SW_STATE_RELEASED;
+    static uint8_t prev_pressed = _swsNum;
     uint8_t pressed_flag = 0;
     for(uint8_t i = 0; i < _swsNum; i++){
         hsw_getState(i,&SW_state);
         if(SW_state == SW_STATE_PRESSED){
             pressed_flag = 1;
-            pressedKey_id = i;
+            prev_pressed = i;
         }
     }
-    if(!pressed_flag){
-        pressedKey_id = _swsNum;
+    if(pressed_flag ||(prev_pressed == _swsNum)){
+        pressedKey_sendId = _swsNum;
+    }
+    else if((!pressed_flag) && (prev_pressed != _swsNum)) { /* currently sw released but previously was pressed */
+        hsw_getState(prev_pressed,&SW_state);
+        if(SW_state == SW_STATE_RELEASED){
+            pressedKey_sendId = prev_pressed;
+            Tx.Ptr_Buffer[0] = prev_pressed;
+            USART_SendBufferAsync(&Tx);
+            prev_pressed = _swsNum;
+        }
+    }
+}
+
+void tx_cbf(){
+    Tx.Ptr_Buffer[0] = _swsNum;
+}
+
+void rx_cbf(){
+    if(Rx.Ptr_Buffer[0] != _swsNum) {
+        pressedKey_id = Rx.Ptr_Buffer[0];
     }
 }
 
@@ -200,7 +326,7 @@ int main() {
     rcc_getClkStatus(CLOCK_HSI,&res);
     while(res != CLK_READY);
     rcc_selectSysClk(SYSCLK_HSI);
-    rcc_configAHB(AHB_PRE_2);
+    // rcc_configAHB(AHB_PRE_1);
     rcc_controlAHB1Peripheral(AHB1_PERIPH_GPIOA,PERIPH_STATE_ENABLED);
     rcc_controlAHB1Peripheral(AHB1_PERIPH_GPIOB,PERIPH_STATE_ENABLED);
     rcc_controlAHB1Peripheral(AHB1_PERIPH_GPIOC,PERIPH_STATE_ENABLED);
@@ -210,9 +336,8 @@ int main() {
     lcd_initAsync();
 
     rcc_controlAPB2Peripheral(APB2_PERIPH_USART1,PERIPH_STATE_ENABLED);
-    uint8_t x='T';
-	uint8_t z=0;
-	uint8_t Arr[5]={'T','a','r','e','K'};
+    
+
 	gpioPin_t UART_PINS[2]={
 			//tx
 			[0]= {
@@ -233,11 +358,23 @@ int main() {
 	};
     gpio_initPin(&UART_PINS[0]);
 	gpio_initPin(&UART_PINS[1]);
-	// GPIO_CFG_AF(UART_PINS[0].Port,UART_PINS[0].Pin,GPIO_AF7);
-	// GPIO_CFG_AF(UART_PINS[1].Port,UART_PINS[1].Pin,GPIO_AF7);
-	// NVIC_Control_IRQ(NVIC_USART1,NVIC_ENABLE);
 
     nvic_enableInt(IRQ_USART1);
+
+    
+	Tx.Ptr_Buffer = Tx_buf;
+	Tx.USART_Num = USART_1;
+	Tx.CallBack = tx_cbf;
+    Tx.Length = 1;
+
+    Rx.Ptr_Buffer = Rx_buf;
+ 	Rx.USART_Num = USART_1;
+ 	Rx.CallBack = rx_cbf;
+    Rx.Length = 1;
+
+    // USART_SendBufferAsync(&Tx);
+
+    USART_Init();
 
     sched_init();
     sched_start();

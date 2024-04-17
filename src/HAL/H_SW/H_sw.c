@@ -43,7 +43,7 @@ void Hsw_task(){
             else {
                 swData[i].count = 0;
             }
-            if(swData[i].count == 10) {
+            if(swData[i].count == 5) {
                 swData[i].state = swData[i].prev ^ switches[i].sw_connection;
             }
             swData[i].prev = current;

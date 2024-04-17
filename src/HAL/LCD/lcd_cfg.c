@@ -31,48 +31,48 @@
 lcdCfg_t lcdCfg = {
     .lcdPinsArr = {
         [d0] = {
-            .pin = PIN_7,
-            .port = PORT_A
+            .pin = PIN_15,
+            .port = PORT_B
         },
         [d1] = {
-            .pin = PIN_6,
-            .port = PORT_A
+            .pin = PIN_14,
+            .port = PORT_B
         },
         [d2] = {
-            .pin = PIN_5,
-            .port = PORT_A
+            .pin = PIN_13,
+            .port = PORT_B
         },
         [d3] = {
-            .pin = PIN_4,
-            .port = PORT_A
+            .pin = PIN_12,
+            .port = PORT_B
         },
         [d4] = {
-            .pin = PIN_3,
-            .port = PORT_A
+            .pin = PIN_10,
+            .port = PORT_B
         },
         [d5] = {
-            .pin = PIN_2,
-            .port = PORT_A
+            .pin = PIN_9,
+            .port = PORT_B
         },
         [d6] = {
-            .pin = PIN_1,
-            .port = PORT_A
+            .pin = PIN_8,
+            .port = PORT_B
         },
         [d7] = {
-            .pin = PIN_0,
-            .port = PORT_A
+            .pin = PIN_7,
+            .port = PORT_B
         },
         [rs] = {
-            .pin = PIN_10,
-            .port = PORT_A
+            .pin = PIN_15,
+            .port = PORT_C
         },
         [rw] = {
-            .pin = PIN_9,
-            .port = PORT_A
+            .pin = PIN_14,
+            .port = PORT_C
         },
         [e] = {
-            .pin = PIN_8,
-            .port = PORT_A
+            .pin = PIN_13,
+            .port = PORT_C
         }
     },
     .cursor_dir = LCD_CURSOR_DIR_INC,

@@ -19,14 +19,5 @@ const  USART_Cfg_t USART_ARR[_USART_Num] =
     .ParityType=0,
     .StopBits=USART_STOP_BIT_1,
     .OverSamplingMode=USART_OVS_16}
-	
-	// ,[USART_2]={
-	//     .USART_ID=USART2,
-	//     .BaudRate=9600,
-	//     .WordLength=USART_WL_8BIT_DATA,
-	//     .ParityControl=USART_PARITY_DISABLE,
-	//     .ParityType=0,
-	//     .StopBits=USART_STOP_BIT_1,
-	//     .OverSamplingMode=USART_OVS_16}
 
 };

@@ -39,12 +39,12 @@ const runnable_t runnables[_runsNum] = {
     },
     [getPressed_run] = {
         /* looping over switches and updating currently pressed */
-        .period_mS = 300,
+        .period_mS = 50,
         .callBck = getPressed
     },
     [hsw_task] = {
         /* updating states PRESSED/RELEASED of all switches */
-        .period_mS = 5,
+        .period_mS = 8,
         .callBck = Hsw_task
     },
     [lcd_task] = {

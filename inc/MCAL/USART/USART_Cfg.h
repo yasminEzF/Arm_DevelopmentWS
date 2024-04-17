@@ -13,7 +13,6 @@ typedef enum
 {
 
 USART_1,
-USART_2,
 _USART_Num
 
 }USART_Names_t;
