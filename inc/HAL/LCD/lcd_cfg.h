@@ -25,14 +25,14 @@
 #define LCD_FONT_5X10   1
 
 #define LCD_DISP_SHIFT_OFF			0
-#define LCD_CURSOR_DIR_INC		1
-#define LCD_CURSOR_DIR_DEC		0
-#define LCD_DISPLAY_ON      1
-#define LCD_DISPLAY_OFF     0
-#define LCD_CURSOR_ON       1
-#define LCD_CURSOR_OFF      0
-#define LCD_BLINK_ON        1
-#define LCD_BLINK_OFF       0
+#define LCD_CURSOR_DIR_INC		    1
+#define LCD_CURSOR_DIR_DEC		    0
+#define LCD_DISPLAY_ON              1
+#define LCD_DISPLAY_OFF             0
+#define LCD_CURSOR_ON               1
+#define LCD_CURSOR_OFF              0
+#define LCD_BLINK_ON                1
+#define LCD_BLINK_OFF               0
 
 
 /*****************************************************************************/
@@ -59,7 +59,7 @@ typedef struct {
 }lcdPinCfg_t;
 
 typedef struct {
-    lcdPinCfg_t lcdPinsArr[_lcdPinsNum];
+    const lcdPinCfg_t lcdPinsArr[_lcdPinsNum];
     // uint8_t mode;
     
     uint8_t cursor_dir;

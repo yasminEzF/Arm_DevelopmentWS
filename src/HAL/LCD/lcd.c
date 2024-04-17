@@ -46,7 +46,8 @@ typedef enum {
     reqType_write,
     reqType_clear,
     reqType_setCursor,
-    reqType_writeXY
+    reqType_writeXY,
+    reqType_blinkCursor
 }reqType_t;
 
 typedef struct {
@@ -66,7 +67,7 @@ typedef struct {
 /*****************************************************************************/
 /*                           Global Variables                                */
 /*****************************************************************************/
-extern const lcdCfg_t lcdCfg;
+extern lcdCfg_t lcdCfg;
 
 static lcdState_t lcdState = lcdState_off;
 
@@ -90,6 +91,7 @@ static void writeByte(uint8_t data);
 static void trgEnable();
 static void writeCharXY();
 static void writeChar();
+static void blinkCursor();
 
 /*****************************************************************************/
 /*                              Module Task                                  */
@@ -147,6 +149,17 @@ void Lcd_task() {
                             }
                         }
                         break;
+                    case reqType_blinkCursor:
+                        blinkCursor();
+                        if(ENABLE_DONE){
+                            usrReq.reqState = lcdReqState_done;
+                            if(usrReq.reqCallback){
+                                usrReq.reqCallback();
+                            }
+                        }
+                        break;
+                    
+
                 }
             }
             break;
@@ -172,6 +185,11 @@ static void writeCharXY(){
             sendData(writeReq.data[writeReq.currentIndex]);
             if(ENABLE_DONE) {
                 writeReq.currentIndex++;
+                if(writeReq.currentIndex == 16){
+                    writeState = writeState_setCursor;
+                    writeReq.x = 0;
+                    writeReq.y = 1;
+                }
                 if(writeReq.currentIndex == writeReq.len) {
                     writeState = writeState_ready;
                     usrReq.reqState = lcdReqState_done;
@@ -234,6 +252,19 @@ static void setCursor() {
     else if(writeReq.y == 1) {
 		sendCmd(CMD_GOTO_X0Y1 + writeReq.x);
 	}    
+}
+static void blinkCursor(){
+    sendCmd(CMD_DISPLAY_CONTROL);
+}
+void lcd_blinkCursorAsync(uint8_t cursor_state, callback_t callback_blinkCursor){
+    if(usrReq.reqState != lcdReqState_inProgress){
+        lcdCfg.cursor = cursor_state;
+        lcdCfg.blink = cursor_state;
+
+        usrReq.reqCallback = callback_blinkCursor;
+        usrReq.reqType = reqType_blinkCursor;
+        usrReq.reqState = lcdReqState_inProgress;
+    }
 }
 static void clearScreen(){
     sendCmd(CMD_CLEAR_SCREEN);

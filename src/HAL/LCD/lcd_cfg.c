@@ -28,7 +28,7 @@
 /*****************************************************************************/
 /*                           Global Variables                                */
 /*****************************************************************************/
-const lcdCfg_t lcdCfg = {
+lcdCfg_t lcdCfg = {
     .lcdPinsArr = {
         [d0] = {
             .pin = PIN_15,
@@ -63,16 +63,16 @@ const lcdCfg_t lcdCfg = {
             .port = PORT_B
         },
         [rs] = {
-            .pin = PIN_2,
-            .port = PORT_A
+            .pin = PIN_15,
+            .port = PORT_C
         },
         [rw] = {
-            .pin = PIN_1,
-            .port = PORT_A
+            .pin = PIN_14,
+            .port = PORT_C
         },
         [e] = {
-            .pin = PIN_0,
-            .port = PORT_A
+            .pin = PIN_13,
+            .port = PORT_C
         }
     },
     .cursor_dir = LCD_CURSOR_DIR_INC,

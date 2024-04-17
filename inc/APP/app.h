@@ -1,5 +1,5 @@
 
-#define APP                 UART_APP
+#define APP                 7
 
 #define EMPTY_APP           0
 #define RCC_LED_SW_APP      1

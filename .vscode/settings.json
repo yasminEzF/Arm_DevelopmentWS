@@ -4,6 +4,7 @@
         "bitmasks.h": "c",
         "app.h": "c",
         "gpio.h": "c",
-        "sched.h": "c"
+        "sched.h": "c",
+        "led_cfg.h": "c"
     }
 }
